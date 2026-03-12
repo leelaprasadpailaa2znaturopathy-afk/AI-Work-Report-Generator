@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Work Report Generator | Operations Reporting</title>
+  <meta name="description"
+    content="Generate professional work reports and email updates from raw notes instantly. Perfect for logistics and operations teams.">
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>AI Work Report <span style="color: var(--secondary)">Generator</span></h1>
+      <p class="subtitle">Convert raw operations notes into professional documentation</p>
+      <div class="header-stats">
+        <div id="usageStats" class="usage-badge">API Usage: 0 generations</div>
+        <div id="processingMode" class="mode-badge">Standby</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="input-section">
+        <div class="field-label">
+          <label for="rawNotes">Enter Raw Work Notes</label>
+          <textarea id="rawNotes" placeholder="Example: 
+9 to 10:30 pack validation in odoo
+download labels from shiprocket
+2 amazon errors fixed"></textarea>
+        </div>
+
+        <div class="button-group">
+          <button id="generateBtn" class="btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+              </path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+            Generate Reports
+          </button>
+          <button id="clearBtn" class="btn-secondary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 6h18"></path>
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+            </svg>
+            Clear Form
+          </button>
+        </div>
+      </section>
+
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+      </div>
+
+      <section id="outputSection" class="output-section">
+        <!-- 1. TASK SUMMARY -->
+        <div class="output-card">
+          <div class="card-header">
+            <h2 class="card-title">Task Summary</h2>
+            <button class="copy-btn" onclick="copyToClipboard('summaryContent')">Copy Summary</button>
+          </div>
+          <div id="summaryContent" class="output-content"></div>
+        </div>
+
+        <div class="output-card">
+          <div class="card-header">
+            <h2 class="card-title">Professional Email Draft</h2>
+            <button class="copy-btn" onclick="copyToClipboard('emailContent')">Copy Email</button>
+          </div>
+          <div id="emailContent" class="output-content"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        Built with ❤️ by Leela Prasad
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+  <script>
+    function copyToClipboard(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard!');
+      });
+    }
+  </script>
+</body>
+
+</html>
