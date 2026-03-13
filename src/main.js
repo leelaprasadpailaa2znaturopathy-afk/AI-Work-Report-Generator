@@ -28,6 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
         modeBadge.className = `mode-badge ${status}`;
     }
 
+    function getReportDate() {
+        const d = new Date();
+        const day = d.getDate();
+        const month = d.toLocaleString('en-GB', { month: 'long' });
+        const year = d.getFullYear();
+        const suffix = ["th", "st", "nd", "rd"][(day % 10 > 3 || (day % 100 - day % 10 === 10)) ? 0 : day % 10];
+        return `${day}${suffix} ${month} ${year}`;
+    }
+
     const SYSTEM_PROMPT = `
 ROLE
 You are an expert operations report formatter and data cleaner. 
@@ -109,12 +118,12 @@ Use short bullet points for summary. No paragraphs in summary.
     }
 
     function processNotesBasicJS(rawText) {
-        const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+        const todayFormatted = getReportDate();
         const lines = rawText.split('\n').filter(l => l.trim());
         return {
             task_summary: lines.map(line => `<b>${line.trim()}</b>`),
             email: {
-                subject: `Today work report update on ${today}`,
+                subject: `Work Report Update – ${todayFormatted}`,
                 body: `Dear Team,\n\nI have completed current tasks.\n\nBest Regards\nLeela Prasad`
             }
         };
@@ -153,8 +162,20 @@ Use short bullet points for summary. No paragraphs in summary.
                 setMode('Basic JS (Offline)');
             }
             
-            summaryContent.innerHTML = `<ul class="task-list">${result.task_summary.map(task => `<li class="task-item">${task}</li>`).join('')}</ul>`;
-            emailContent.innerText = `Subject: ${result.email.subject}\n\n${result.email.body}`;
+            const formattedReportDate = getReportDate();
+            
+            // Format Summary for Teams/Chat
+            const summaryHeader = `<div class="summary-header">Daily Work Report – ${formattedReportDate}</div>`;
+            const summaryList = result.task_summary.map(task => `<div class="summary-item">• ${task}</div>`).join('');
+            
+            summaryContent.innerHTML = summaryHeader + summaryList;
+            
+            // If AI returned a generic date in subject, replace it
+            let subject = result.email.subject;
+            if (subject.includes('DD-MM-YYYY') || subject.includes('today') || subject.includes('Today')) {
+                subject = `Work Report Update – ${formattedReportDate}`;
+            }
+            emailContent.innerText = `Subject: ${subject}\n\n${result.email.body}`;
 
             loading.style.display = 'none';
             outputSection.style.display = 'flex';

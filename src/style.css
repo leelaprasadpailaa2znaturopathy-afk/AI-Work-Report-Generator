@@ -79,6 +79,7 @@ h1 {
   font-weight: 700;
   background: linear-gradient(135deg, #fff 0%, #a855f7 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
@@ -343,6 +344,20 @@ button {
 .task-item b, .task-item strong {
   color: var(--secondary);
   font-weight: 600;
+}
+
+.summary-header {
+  color: var(--secondary);
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+
+.summary-item {
+  margin-bottom: 0.75rem;
+  padding-left: 0.5rem;
+  font-size: 1.05rem;
 }
 
 
